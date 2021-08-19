@@ -2,7 +2,6 @@ import * as React from "react";
 import { JsxElement } from "typescript";
 import { API } from "../Utils/API";
 
-
 const api_uri =
   "https://raw.githubusercontent.com/skolakoda/programming-quotes-api/master/backup/quotes.json";
 
@@ -14,7 +13,10 @@ export interface IQuotesState {
   random_quote: string;
 }
 
-export default class Quotes extends React.Component<IQuotesProps, IQuotesState> {
+export default class Quotes extends React.Component<
+  IQuotesProps,
+  IQuotesState
+> {
   constructor(props: IQuotesProps) {
     super(props);
     console.log("constructor");
@@ -25,7 +27,7 @@ export default class Quotes extends React.Component<IQuotesProps, IQuotesState> 
     this.state = {
       hasLoaded: false,
       API: {} as API[],
-      random_quote: "0",
+      random_quote: "",
     };
   }
 
@@ -49,7 +51,7 @@ export default class Quotes extends React.Component<IQuotesProps, IQuotesState> 
     let oneDay = 1000 * 60 * 60 * 24;
     return Math.floor(diff / oneDay);
   }
-  getRandomInt(min:number, max:number) {
+  getRandomInt(min: number, max: number) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
@@ -57,26 +59,27 @@ export default class Quotes extends React.Component<IQuotesProps, IQuotesState> 
 
   genQuote() {
     let number = parseInt(this.state.random_quote);
-    if (number === 0) {
-      let numb = this.getRandomInt(0,500)
-      return this.getQuote(numb)
-    }
-    return number ? this.getQuote(number) : this.getQuote(0);
+    let numb = this.getRandomInt(0, 500);
+
+    return number ? this.getQuote(number) : this.getQuote(numb);
   }
-  handleChange(event:React.ChangeEvent<HTMLInputElement>) {
-    this.setState({random_quote: event.target.value});
+  handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    this.setState({ random_quote: event.target.value });
   }
   genRandomQuote() {
     const quote = this.genQuote();
     return (
       <div>
-      <form action="">
-        <label htmlFor="">
-          Quote Number
-          <input type="text" value={this.state.random_quote} onChange={this.handleChange} />
-        </label>
-      </form>
-      {quote}
+        <form action="">
+          <h2>Quote Number</h2>
+          <input
+            type="text"
+            value={this.state.random_quote}
+            placeholder="default value = random"
+            onChange={this.handleChange}
+          />
+        </form>
+        {quote}
       </div>
     );
   }
@@ -100,7 +103,7 @@ export default class Quotes extends React.Component<IQuotesProps, IQuotesState> 
           <p className="author"></p>
           <p>
             Votes: {quote.numberOfVotes ? quote.numberOfVotes : 0} | Rating:{" "}
-            { quote.rating ? quote.rating : "unrated" }
+            {quote.rating ? quote.rating : "unrated"}
           </p>
           <hr />
         </fieldset>
@@ -110,11 +113,12 @@ export default class Quotes extends React.Component<IQuotesProps, IQuotesState> 
 
   public render() {
     console.log("render");
-
-    const todays_quote = this.getQuote(this.getTodaysDate());
+    let today = this.getTodaysDate();
+    const todays_quote = this.getQuote(today);
     const randomQuote = this.genRandomQuote();
     return (
       <div>
+        <h1>Quote of the day number: {today}</h1>
         {this.state.hasLoaded ? todays_quote : "hi"}
         <br />
         {this.state.hasLoaded ? randomQuote : "hi"}
