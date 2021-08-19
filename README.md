@@ -2,7 +2,7 @@
 > 1. Clone repo
 > 2. Init npm packages
 > 3. run npm start
-> 4? Boom!?!?!
+> 4. Boom!?!?!
 > 
 # Fibbo practice ✔️
 Write a component that asks the user for a number from 4 to 20 and print the fibonacci sequence up to the number entered. You may use Google the algorithm, VS and React/Nodejs to test out your code.
